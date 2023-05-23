@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
         Dimension dimension = toolkit.getScreenSize();
 
         setBounds(dimension.width / 2 - 300, dimension.height / 2 - 300, 600, 600);
-        setTitle("Graphic Editor 1.1");
+        setTitle("Graphic Editor 1.3");
         setBackground(Color.black);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -43,12 +43,22 @@ public class MainFrame extends JFrame {
         toolsPane.setVisible(true);
         toolsPane.setLayout(new BoxLayout(toolsPane, BoxLayout.Y_AXIS));
 
-        JTextPane ToolsName = new JTextPane();
+        // Center named
+        JLabel ToolsName = new JLabel();
+        ToolsName.setText("TOOLS:");
+        ToolsName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toolsPane.add(ToolsName);
+
+        JLabel ColorsName = new JLabel();
+        ColorsName.setText("COLORS:");
+        ColorsName.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        toolsPane.add(ColorsName);
 
         //buttons
         ButtonGroup chooseColor = new ButtonGroup();     //group radioButton
 
         JRadioButton blackColorChoose = new JRadioButton();
+        blackColorChoose.setSelected(true);
         blackColorChoose.setText("                      ");
         blackColorChoose.setBackground(Color.BLACK);
         chooseColor.add(blackColorChoose);
@@ -83,6 +93,43 @@ public class MainFrame extends JFrame {
         toolsPane.add(blueColorChoose);
         blueColorChoose.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Center named
+        JLabel SliderName = new JLabel();
+        SliderName.setText("SIZE:");
+        SliderName.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        toolsPane.add(SliderName);
+
+
+        //create JSlider
+        JSlider newSlider = new JSlider(5, 40, 5);
+        newSlider.setOrientation(SwingConstants.VERTICAL);
+        newSlider.setMajorTickSpacing(5);
+        newSlider.setPaintTicks(true);
+        newSlider.setPaintLabels(true);
+        newSlider.setSnapToTicks(true);
+        toolsPane.add(newSlider);
+        newSlider.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newSlider.setBackground(Color.LIGHT_GRAY);
+        //button RESET
+        JButton reset = new JButton();
+        reset.setText("RESET");
+        reset.setVisible(true);
+        reset.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toolsPane.add(reset);
+
+//BOTTOM PANEL
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setVisible(true);
+        bottomPanel.setBackground(Color.LIGHT_GRAY);
+        bottomPanel.setLayout(new FlowLayout());
+
+        JLabel info = new JLabel();
+        info.setVisible(true);
+        info.setText("Left mouse button - draw, right mouse button - delete.");
+        info.setBackground(Color.LIGHT_GRAY);
+        bottomPanel.add(info);
+        //don't touch below
+        contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(toolsPane, BorderLayout.EAST);
         contentPane.add(paintPanel, BorderLayout.CENTER);
     }
