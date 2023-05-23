@@ -1,6 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
     private JPanel contentPane;
@@ -72,6 +76,7 @@ public class MainFrame extends JFrame {
         toolsPane.add(whiteColorChoose);
         whiteColorChoose.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
         JRadioButton redColorChoose = new JRadioButton();
         redColorChoose.setText("                       ");
         redColorChoose.setBackground(Color.RED);
@@ -117,6 +122,13 @@ public class MainFrame extends JFrame {
         reset.setAlignmentX(Component.CENTER_ALIGNMENT);
         toolsPane.add(reset);
 
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                paintPanel.removeAll();
+                paintPanel.updateUI();
+            }
+        });
+
 //BOTTOM PANEL
         JPanel bottomPanel = new JPanel();
         bottomPanel.setVisible(true);
@@ -128,9 +140,26 @@ public class MainFrame extends JFrame {
         info.setText("Left mouse button - draw, right mouse button - delete.");
         info.setBackground(Color.LIGHT_GRAY);
         bottomPanel.add(info);
+        //draw
+        paintPanel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent arg) {
+                if (arg.getButton() != MouseEvent.BUTTON1) return; // checked for left button
+                int size = newSlider.getValue(); // Размер панели
+                // Новая панель (точка)
+                JPanel panel = new JPanel();
+                panel.setBackground(color);
+                panel.setBounds(arg.getX()-size/2, arg.getY()-size/2 , size,
+                        size);
+                paintPanel.add(panel);
+                paintPanel.setComponentZOrder(panel, 0);
+                paintPanel.updateUI();
+            }
+        });
         //don't touch below
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(toolsPane, BorderLayout.EAST);
         contentPane.add(paintPanel, BorderLayout.CENTER);
     }
+    Color color = Color.BLACK;
+
 }
