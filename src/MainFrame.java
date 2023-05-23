@@ -108,7 +108,7 @@ public class MainFrame extends JFrame {
         newSlider.setPaintLabels(true);
         newSlider.setSnapToTicks(true);
         toolsPane.add(newSlider);
-        newSlider.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         newSlider.setBackground(Color.LIGHT_GRAY);
         //button RESET
         JButton reset = new JButton();
