@@ -22,13 +22,19 @@ public class MainFrame extends JFrame {
             }
         });
     }
-
+    private ActionListener listenerSelectColor() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                color = ((JRadioButton) arg0.getSource()).getBackground();
+            }
+        };
+    }
     public MainFrame() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension dimension = toolkit.getScreenSize();
 
         setBounds(dimension.width / 2 - 300, dimension.height / 2 - 300, 600, 600);
-        setTitle("Graphic Editor 1.3");
+        setTitle("Graphic Editor 1.5");
         setBackground(Color.black);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -76,7 +82,6 @@ public class MainFrame extends JFrame {
         toolsPane.add(whiteColorChoose);
         whiteColorChoose.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
         JRadioButton redColorChoose = new JRadioButton();
         redColorChoose.setText("                       ");
         redColorChoose.setBackground(Color.RED);
@@ -98,6 +103,12 @@ public class MainFrame extends JFrame {
         toolsPane.add(blueColorChoose);
         blueColorChoose.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        //add action for button
+        blackColorChoose.addActionListener(listenerSelectColor());
+        whiteColorChoose.addActionListener(listenerSelectColor());
+        redColorChoose.addActionListener(listenerSelectColor());
+        greenColorChoose.addActionListener(listenerSelectColor());
+        blueColorChoose.addActionListener(listenerSelectColor());
         // Center named
         JLabel SliderName = new JLabel();
         SliderName.setText("SIZE:");
@@ -148,18 +159,27 @@ public class MainFrame extends JFrame {
                 // Новая панель (точка)
                 JPanel panel = new JPanel();
                 panel.setBackground(color);
-                panel.setBounds(arg.getX()-size/2, arg.getY()-size/2 , size,
+                panel.setBounds(arg.getX() - size / 2, arg.getY() - size / 2, size,
                         size);
                 paintPanel.add(panel);
                 paintPanel.setComponentZOrder(panel, 0);
                 paintPanel.updateUI();
+                panel.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent arg) {
+                        if (arg.getButton() != MouseEvent.BUTTON3) return;
+                        paintPanel.remove(panel);
+                        paintPanel.updateUI();
+                    }
+                });
             }
         });
+
         //don't touch below
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(toolsPane, BorderLayout.EAST);
         contentPane.add(paintPanel, BorderLayout.CENTER);
     }
+
     Color color = Color.BLACK;
 
 }
