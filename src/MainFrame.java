@@ -1,13 +1,12 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class MainFrame extends JFrame {
     private JPanel contentPane;
+
+
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -140,6 +139,9 @@ public class MainFrame extends JFrame {
             }
         });
 
+       JCheckBox danceDrawingXD = new JCheckBox("LET'S DANCE");
+
+
 //BOTTOM PANEL
         JPanel bottomPanel = new JPanel();
         bottomPanel.setVisible(true);
@@ -151,7 +153,7 @@ public class MainFrame extends JFrame {
         info.setText("Left mouse button - draw, right mouse button - delete.");
         info.setBackground(Color.LIGHT_GRAY);
         bottomPanel.add(info);
-        //draw
+//draw
         paintPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent arg) {
                 if (arg.getButton() != MouseEvent.BUTTON1) return; // checked for left button
@@ -173,7 +175,38 @@ public class MainFrame extends JFrame {
                 });
             }
         });
+        //timer
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Component panel : paintPanel.getComponents() ) {
+                    int x = panel.getLocation().x + Main.randomRange(-2, 2);
+                    int y = panel.getLocation().y + Main.randomRange(-2, 2);
+                    panel.setLocation(x, y);
+                }
 
+            }
+        });
+
+//        danceDrawingXD.addItemListener(new ItemListener() {
+//            @Override
+//            public void itemStateChanged(ItemEvent e) {
+//                timer.start();
+//
+//            }
+//        });
+        danceDrawingXD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (danceDrawingXD.isSelected())
+                    timer.start();
+                else
+                    timer.stop();
+            }
+        });
+        danceDrawingXD.setBackground(Color.LIGHT_GRAY);
+        danceDrawingXD.setAlignmentX(Component.CENTER_ALIGNMENT);
+        toolsPane.add(danceDrawingXD);
         //don't touch below
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(toolsPane, BorderLayout.EAST);
